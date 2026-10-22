@@ -1,0 +1,6 @@
+.b30h__btn span,.b30btn__lbl,.work .cta .lbl{justify-content:center}
+.b30h__btn,.b30btn,.work .cta{height:44px!important}
+.b30h__btn i,.b30btn__ic,.work .cta .ic{width:44px!important;height:44px;box-sizing:border-box}
+.b30h__btn span,.b30btn__lbl,.work .cta .lbl{height:44px;box-sizing:border-box}
+.b30h__btn i,.b30btn__ic,.work .cta .ic{background:transparent!important}
+.b30h__btn span,.b30btn__lbl,.work .cta .lbl{padding:0 max(11px,calc(var(--u) * 14.667))!important}

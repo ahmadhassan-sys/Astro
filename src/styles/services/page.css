@@ -1,0 +1,8 @@
+html.dark{--svx-dash:rgba(255,255,255,.18)}
+html.dark.dark{--night:
+  radial-gradient(75% 60% at 88% 108%,rgba(52,70,170,.24),rgba(52,70,170,0) 70%) fixed,
+  linear-gradient(155deg,#000 0%,#000 30%,#010205 50%,#02040c 62%,#050817 72%,#0a0f2a 88%,#0D1432 100%) fixed}
+html.dark.dark,html.dark.dark body{background:var(--night)!important}
+html.dark .b30-main{position:relative;z-index:2}
+/* the homepage's "every section paints the night" rule doesn't apply here: these sections let the page's own night show through */
+html.dark.dark .b30-main > section.svx,html.dark.dark .b30-main > section.svhello{background:transparent!important}
