@@ -1,0 +1,61 @@
+---
+/**
+ * Services page ("What we do") — /services
+ * Its own sections: components/services/*  ·  content: src/data/services.js
+ * Shared with the homepage: header, partners strip, testimonials, closing line, footer
+ * (components/*, content: src/data/site.js).
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/pages/services.css";   // all services page styles, in order
+
+import ServicesHero from "../components/services/ServicesHero.jsx";
+import PartnersStrip from "../components/PartnersStrip.jsx";
+import ServicesList from "../components/services/ServicesList.jsx";
+import SayHello from "../components/services/SayHello.jsx";
+import Testimonials from "../components/Testimonials.jsx";
+import Contact from "../components/Contact.jsx";
+import Footer from "../components/Footer.jsx";
+
+import { seo, hero, disciplines, list, hello } from "../data/services.js";
+import { serviceIcons } from "../data/services-icons.js";
+import { nav, partnersStrip, testimonials, contact, footer } from "../data/site.js";
+
+/* What the page scripts (public/js) read. */
+const heroImages = { default: [hero.media.cover] };
+disciplines.forEach((d) => { heroImages[d.id] = d.images; });
+const scriptContent = {
+  servicesPage: { icons: serviceIcons, heroImages, hoverWord: hero.media.hoverWord },
+  testimonials: { items: testimonials.items },
+  contact: { heading: contact.heading, closing: contact.closing },
+};
+
+/* Page scripts, in the order they run. */
+const scripts = [
+  "core",            // scale, smooth scroll, headings, reveals (must be first)
+  "header",          // logo hover, header pixels
+  "hero-light",      // the hero's glow and light
+  "partners",
+  "testimonials",
+  "contact",
+  "footer",
+  "theme",           // day / night switch and the dark theme
+  "details",         // small finishing touches across sections
+  "services-list",   // the disciplines and the sphere
+  "services-hero",   // the hero picture and the hero's drift
+  "contact-closing", // the closing words (must run last: it sits on top of the contact panel)
+];
+---
+
+<BaseLayout seo={seo} content={scriptContent} scripts={scripts}>
+  <ServicesHero {...hero} nav={nav} disciplines={disciplines} />
+
+  <main class="b30-main" id="main">
+    <PartnersStrip {...partnersStrip} />
+    <ServicesList {...list} disciplines={disciplines} />
+    <SayHello {...hello} />
+    <Testimonials {...testimonials} />
+    <Contact {...contact} />
+  </main>
+
+  <Footer {...footer} page="services" />
+</BaseLayout>

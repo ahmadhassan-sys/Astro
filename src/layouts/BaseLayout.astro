@@ -1,0 +1,67 @@
+---
+/**
+ * Base page shell: <head>, the global styles and the page scripts.
+ * The page scripts live in public/js (one file per section). Each page passes its own list;
+ * they run at the end of the body, in that order, after all the sections are on the page.
+ */
+
+interface Props {
+  seo: { title: string; description: string; ogTitle: string; ogDescription: string; themeColor: string };
+  content: Record<string, unknown>;   // data the page scripts read (lists they build on the page)
+  scripts: string[];                  // page scripts from public/js, in the order they run
+}
+const { seo, content, scripts } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+<script is:inline>
+  /* theme: light by default; "dark" is remembered. B30T gives scripts the current ink and paper colours */
+  (function () {
+    var d = false; try { d = localStorage.getItem("b30-theme") === "dark"; } catch (e) {}
+    if (d) document.documentElement.classList.add("dark");
+    window.B30T = {
+      dark: function () { return document.documentElement.classList.contains("dark"); },
+      ink: function () { return this.dark() ? "#F2F1EE" : "#000"; },
+      paper: function () { return this.dark() ? "#000" : "#fff"; },
+      inkRGB: function () { return this.dark() ? [242, 241, 238] : [0, 0, 0]; },
+      paperRGB: function () { return this.dark() ? [0, 0, 0] : [255, 255, 255]; }
+    };
+  })();
+</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<script is:inline>
+  /* loader: hold the hero hidden until the card is laid out (no flash of the full hero) */
+  window.B30_LOADER = false;   // the intro loader has been removed
+  var __pt = ""; try { __pt = sessionStorage.getItem("b30-pt") || ""; } catch (e) {}
+  if (__pt === "__px") window.B30_LOADER = false;   // arriving through the yellow page transition: no intro again
+  if (window.B30_LOADER && new URLSearchParams(location.search).get("loader") !== "0") document.documentElement.classList.add("b30l-on", "b30l-pending");
+  /* the hero stays hidden until its script has laid it out: otherwise the raw markup (the monitor
+     full-size) shows for a moment while the page is still loading, then jumps to the real design */
+  else { document.documentElement.classList.add("b30h-pre"); setTimeout(() => document.documentElement.classList.remove("b30h-pre"), 6000); }
+</script>
+<script is:inline>try{var v=sessionStorage.getItem("b30-pt");if(v)document.documentElement.classList.add(v==="__img"?"pt-img":"pt-px")}catch(e){}</script>
+<style is:inline>html.pt-px::after{content:"";position:fixed;inset:0;background:#fff;z-index:10000}
+html:not(.b30l-on) [data-b30-loader],html:not(.b30l-on) .b30l-cur{display:none!important}   /* loader off: never flash its markup */
+html.b30h-pre .b30h{opacity:0!important}
+.b30h{transition:opacity .45s cubic-bezier(.22,1,.36,1)}</style>
+<title>{seo.title}</title>
+<meta name="theme-color" content={seo.themeColor} />
+<meta property="og:title" content={seo.ogTitle} />
+<meta property="og:description" content={seo.ogDescription} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="description" content={seo.description} />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&display=swap" rel="stylesheet" />
+</head>
+<body>
+<slot />
+
+<script is:inline type="application/json" id="b30-content" set:html={JSON.stringify(content).replace(/</g, "\\u003c")} />
+<script is:inline src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+{scripts.map((name) => <script is:inline src={`/js/${name}.js`}></script>)}
+</body>
+</html>

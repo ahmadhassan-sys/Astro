@@ -1,0 +1,15 @@
+/* =====================================================================
+   Contact page styles, in cascade order. The shared files are the same
+   ones the homepage uses; the page's own files are in styles/contact/.
+   ===================================================================== */
+@import "../global.css";
+@import "../hero.css";               /* the shared hero frame + header */
+@import "../contact/globe.css";
+@import "../contact/hero.css";
+@import "../partners.css";
+@import "../contact/form.css";
+@import "../shared.css";
+@import "../contact.css";            /* the closing line before the footer */
+@import "../footer.css";
+@import "../theme.css";
+@import "../dark.css";
