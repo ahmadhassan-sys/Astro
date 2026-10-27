@@ -1,0 +1,129 @@
+---
+/**
+ * Base page shell: <head>, the global styles and the page scripts.
+ * The page scripts live in public/js (one file per section). Each page passes its own list;
+ * they run at the end of the body, in that order, after all the sections are on the page.
+ */
+
+interface Props {
+  seo: {
+    title: string; description: string; ogTitle?: string; ogDescription?: string; themeColor?: string;
+    image?: string;                    // share picture (path in public/ or a full URL)
+    type?: string;                     // og:type — "website" (default) or "article"
+    keywords?: string[];
+    published?: string; modified?: string;   // articles: ISO dates
+    jsonLd?: Record<string, unknown>;  // extra structured data for this page (blog posts)
+    noindex?: boolean;                 // keep this page out of search results (the 404 page)
+  };
+  crumbs?: { name: string; path: string }[];   // breadcrumb trail after "Home" (for search results)
+  content: Record<string, unknown>;   // data the page scripts read (lists they build on the page)
+  scripts: string[];                  // page scripts from public/js, in the order they run
+  pageCss?: string;                   // page-only styles (case studies)
+  loader?: boolean;                   // the intro loader (public/js/b30-loader.js) — the homepage
+}
+import { company } from "../data/site.js";
+const { seo, content, scripts, pageCss, loader = false, crumbs = [] } = Astro.props;
+/* canonical: this page on the live domain (astro.config.mjs `site`), without a trailing slash — as the old site's URLs */
+const canonical = new URL(Astro.url.pathname.replace(/(.)\/$/, "$1"), Astro.site).href;
+/* share picture: the page's own, else the site's (public/assets/images/og-default.jpg, 1200 × 630) */
+const shareImage = new URL(seo.image || "/assets/images/og-default.jpg", Astro.site).href;
+const site = Astro.site.href.replace(/\/$/, "");
+
+/* structured data on every page: the company and the website; a breadcrumb trail where the page passes one */
+const graph = [
+  {
+    "@type": "Organization",
+    "@id": `${site}/#organization`,
+    name: company.name,
+    legalName: company.legalName,
+    url: `${site}/`,
+    logo: new URL(company.logo, Astro.site).href,
+    email: company.email,
+    telephone: company.phoneHref.replace("tel:", ""),
+    address: { "@type": "PostalAddress", streetAddress: company.street, addressLocality: company.city, addressRegion: company.region, postalCode: company.postalCode, addressCountry: company.country },
+    sameAs: company.social,
+  },
+  { "@type": "WebSite", "@id": `${site}/#website`, url: `${site}/`, name: company.name, publisher: { "@id": `${site}/#organization` } },
+];
+if (crumbs.length) graph.push({
+  "@type": "BreadcrumbList",
+  itemListElement: [{ name: "Home", path: "/" }, ...crumbs].map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: new URL(c.path, Astro.site).href })),
+});
+const ld = { "@context": "https://schema.org", "@graph": graph };
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+{loader && <script is:inline>
+  /* the intro loader: when this page is opened fresh (typed, bookmarked, from another site) or reloaded —
+     not when you come from another page of this site, and not on the browser's back / forward */
+  (function () {
+    var pt = "", nav = "";
+    try { pt = sessionStorage.getItem("b30-pt") || ""; } catch (e) {}
+    try { nav = performance.getEntriesByType("navigation")[0].type; } catch (e) {}
+    var inSite = false; try { inSite = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (e) {}
+    window.B30_LOADER = nav === "reload" || (!pt && nav !== "back_forward" && !inSite);
+    window.B30_PX = false;   // page transitions stay the site's own (public/js/core.js)
+  })();
+</script>}
+{loader && <script is:inline src="/js/b30-loader.js"></script>}
+<script is:inline>
+  /* theme: light only (the dark theme is retired). B30T gives scripts the current ink and paper colours */
+  (function () {
+    var d = false; try { localStorage.removeItem("b30-theme"); } catch (e) {}   /* light only: the dark theme and its switch are retired */
+    if (d) document.documentElement.classList.add("dark");
+    window.B30T = {
+      dark: function () { return document.documentElement.classList.contains("dark"); },
+      ink: function () { return this.dark() ? "#F2F1EE" : "#000"; },
+      paper: function () { return this.dark() ? "#000" : "#fff"; },
+      inkRGB: function () { return this.dark() ? [242, 241, 238] : [0, 0, 0]; },
+      paperRGB: function () { return this.dark() ? [0, 0, 0] : [255, 255, 255]; }
+    };
+  })();
+</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<script is:inline>
+  /* the hero stays hidden until its script has laid it out: otherwise the raw markup (the monitor
+     full-size) shows for a moment while the page is still loading, then jumps to the real design */
+  document.documentElement.classList.add("b30h-pre"); setTimeout(() => document.documentElement.classList.remove("b30h-pre"), 6000);
+</script>
+<script is:inline>try{var v=sessionStorage.getItem("b30-pt");if(v)document.documentElement.classList.add(v==="__img"?"pt-img":"pt-px")}catch(e){}</script>
+<style is:inline>html.pt-px::after{content:"";position:fixed;inset:0;background:#fff;z-index:10000}
+html:not(.b30l-on) [data-b30-loader],html:not(.b30l-on) .b30l-cur{display:none!important}   /* loader off: never flash its markup */
+html.b30h-pre .b30h{opacity:0!important}
+.b30h{transition:opacity .45s cubic-bezier(.22,1,.36,1)}</style>
+<title>{seo.title}</title>
+<meta name="theme-color" content={seo.themeColor || "#ffffff"} />
+<link rel="canonical" href={canonical} />
+<meta property="og:type" content={seo.type || "website"} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={seo.ogTitle || seo.title} />
+<meta property="og:description" content={seo.ogDescription || seo.description} />
+<meta property="og:site_name" content={company.name} />
+<meta property="og:locale" content="en_US" />
+<meta property="og:image" content={shareImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@breakthirty" />
+{seo.noindex && <meta name="robots" content="noindex, follow" />}
+{seo.keywords && seo.keywords.length > 0 && <meta name="keywords" content={seo.keywords.join(", ")} />}
+{seo.published && <meta property="article:published_time" content={seo.published} />}
+{seo.modified && <meta property="article:modified_time" content={seo.modified} />}
+<script is:inline type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, "\\u003c")} />
+{seo.jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(seo.jsonLd).replace(/</g, "\\u003c")} />}
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/assets/images/breakthirty-logo.png" />
+<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+<meta name="description" content={seo.description} />
+<link rel="preload" href="/assets/fonts/bdo-grotesk.woff2" as="font" type="font/woff2" crossorigin />
+</head>
+<body>
+{pageCss && <style is:inline set:html={pageCss}></style>}   {/* page-only styles (case studies), after the bundled ones */}
+<slot />
+
+<script is:inline type="application/json" id="b30-content" set:html={JSON.stringify(content).replace(/</g, "\\u003c")} />
+<script is:inline src="/js/vendor/lenis.min.js"></script>  <!-- Lenis 1.1.20 (smooth scroll), served from the site -->
+{scripts.map((name) => <script is:inline src={`/js/${name}.js`}></script>)}
+</body>
+</html>

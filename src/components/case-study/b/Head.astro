@@ -1,0 +1,6 @@
+---
+/** The heading and paragraphs of a part or feature (with the optional top space and heading width). */
+import Rich from "../../ui/Rich.astro";
+const { title, body, headMt, titleStyle, feature = false } = Astro.props;
+---
+<div class={headMt ? `cz-f__head cz-mt${headMt}` : "cz-f__head"}><h3 class="cz-h36" data-heading style={titleStyle}><Rich text={title} /></h3><div class={feature ? "cz-body cz-f__body" : "cz-body"} data-reveal>{body.map((p) => <p><Rich text={p} /></p>)}</div></div>

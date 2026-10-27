@@ -1,0 +1,26 @@
+---
+/**
+ * The pictures under a part or a feature, as a list of rows:
+ *   - wide: { image, alt, h?, mt? }          one full-width picture (h: 720 / 800 tall, mt: space above)
+ *   - pair: [ {image, alt, h?}, … ], mt?     two square pictures side by side
+ *   - labels: [Before, After]                small labels over the next row
+ *   - mono: "The System"                     a small caption
+ *   - sub: { heading, text, gap, mt?, media } a sub-block with its own heading and pictures
+ *   - space: 56, media: […]                  extra space above a group
+ */
+import Picture from "../parts/Picture.astro";
+const { items } = Astro.props;
+const cls = (base, p) => [base, p.h ? `cz-h${p.h}` : "", p.mt ? `cz-mt${p.mt}` : ""].filter(Boolean).join(" ");
+---
+{items.map((it) =>
+  it.wide ? <Picture class={cls("cz-wide", it.wide)} image={it.wide.image} alt={it.wide.alt} />
+  : it.pair ? <div class={["cz-pair", it.mt ? `cz-mt${it.mt}` : ""].filter(Boolean).join(" ")}>{it.pair.map((p) => <Picture class={cls("cz-sq", p)} image={p.image} alt={p.alt} />)}</div>
+  : it.labels ? <div class="cz-ab">{it.labels.map((l) => <p class="cz-mono16" data-reveal>{l}</p>)}</div>
+  : it.mono ? <p class="cz-mono16 cz-sys" data-reveal>{it.mono}</p>
+  : it.sub ? (() => {
+      const inner = <div class="cz-sub"><div class="cz-f__head"><p class="cz-sub__h" data-reveal>{it.sub.heading}</p><p class="cz-body" data-reveal>{it.sub.text}</p></div><div class={`cz-mt${it.sub.gap}`}><Astro.self items={it.sub.media} /></div></div>;
+      return it.sub.mt ? <div class={`cz-mt${it.sub.mt}`}>{inner}</div> : inner;
+    })()
+  : it.space ? <div class={`cz-mt${it.space}`}><Astro.self items={it.media} /></div>
+  : null
+)}

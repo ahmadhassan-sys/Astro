@@ -1,0 +1,13 @@
+---
+/** Hero: the full-width picture, two white steps rising into it and the pixel pattern (public/js/case-study/hero.js). */
+import Picture from "../parts/Picture.astro";
+import { HERO_PIXELS } from "../hero-pixels.js";
+const { image, label } = Astro.props;
+---
+<section class="cz-hero" aria-label={label}>
+  <Picture class="cz-hero__img" image={image} alt={label} hero />
+  <span class="cz-step a" aria-hidden="true"></span><span class="cz-step b" aria-hidden="true"></span>
+  <div class="cz-px" aria-hidden="true">{HERO_PIXELS.map((row, i) => (
+    <div class="cz-px__row" data-i={i}>{row.px.map(([x, c]) => <i style={`left:calc(${x}*var(--u));top:calc(${row.y}*var(--u));background:${c}`}><b></b></i>)}</div>
+  ))}</div>
+</section>

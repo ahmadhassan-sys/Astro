@@ -1,0 +1,16 @@
+/* Case study page · hero: the picture, the two white steps and the pixel pattern */
+.cz-hero{position:relative;height:calc(1047*var(--u));overflow:hidden;background:#1c1c1c}
+.cz-hero__img{position:absolute;inset:0}
+.cz-step{position:absolute;background:#fff;z-index:2;pointer-events:none}
+.cz-step.a{left:calc(164*var(--u)*var(--sp,1));right:calc(164*var(--u)*var(--sp,1));top:calc(885*var(--u));height:calc(84*var(--u))}
+.cz-step.b{left:calc(82*var(--u)*var(--sp,1));right:calc(82*var(--u)*var(--sp,1));top:calc(965*var(--u));bottom:0}
+.cz-px{position:absolute;inset:0;z-index:3;pointer-events:none}
+.cz-px__row{position:absolute;inset:0;will-change:transform}
+.cz-px i{position:absolute;display:block;width:calc(12.52*var(--u));height:calc(12.52*var(--u));min-width:6px;min-height:6px}
+.cz-px i b{position:absolute;inset:0;display:block;background:inherit}
+@media (max-width:899px){
+  .cz-hero{height:62vw;min-height:300px}
+  .cz-step.a{left:20px;right:20px;top:auto;bottom:40px;height:24px}
+  .cz-step.b{left:0;right:0;top:auto;bottom:0;height:40px}
+  .cz-px{display:none}
+}

@@ -1,0 +1,224 @@
+# Ethical Narrative case study → /work/ethical-narrative
+# Layout: a list of sections (template b): see src/components/case-study/TemplateB.astro for the section types.
+# Headings: *word* = the highlighted word, a line break in the text = a line break on the page.
+# Its card on the Our Work page is the "ethical-narrative" entry in src/data/work.js.
+
+template: b
+name: Ethical Narrative
+seo:
+  title: Ethical Narrative case study | Breakthirty
+  description: A storytelling agency using the power of kindness to shift culture and create meaningful change.
+hero:
+  image: /assets/images/case-studies/ethical-narrative/hero.jpg
+  label: Ethical Narrative
+next: rivas-pro-details
+sections:
+- type: intro
+  title: Ethical Narrative
+  kind: Social impact · Storytelling · Creative agency
+  roles:
+  - AI solution design & build
+  - Full-stack engineering
+  - Data standardization
+  - Engagement — Over a year
+  lede: A storytelling agency using the power of kindness to shift culture and create meaningful change.
+- type: demo
+  label: Showreel
+  mods:
+  - cz-demo--in
+  image: /assets/images/case-studies/ethical-narrative/demo.jpg
+  alt: showreel
+- type: overview
+  label: Project Overview
+  heading: A storytelling agency that needed a story of its own. We rebuilt the brand around it.
+  body:
+  - Ethical Narrative tells stories for organizations that build movements and shift culture, from health centers to policy
+    institutes.
+  - They asked for a brand as warm and as powerful as the work they make. We started with positioning and messaging, then
+    rebuilt the logo, colour, type and website around it.
+  details:
+  - label: Client
+    value: Ethical Narrative
+  - label: Industry
+    value: Social impact · Storytelling · Creative agency
+  - label: Year
+    value: '2025'
+  detailsLabel: (Details)
+  link:
+    label: Visit Website
+    href: https://ethicalnarrative.com
+    external: true
+- type: rule
+  mods: []
+- type: services
+  label: Services provided
+  heading: A new identity, a new site, and everything around them.
+  list:
+  - Positioning & Messaging
+  - Logo & Brand Mark
+  - Brand Mark System
+  - Color System
+  - Typography
+  - Pattern & Graphic Elements
+  - Website Design & Build
+  - Social & Collateral
+- type: rule
+  mods: []
+- type: challenge
+  label: The challenge
+  heading: Powerful work. A brand that didn’t show it.
+  body:
+  - Ethical Narrative’s stories help leaders raise millions and shape public policy. Their old brand didn’t look like it.
+  - A heavy, corporate logo and a generic homepage could have belonged to any institution. Nothing in it said storytelling
+    agency.
+- type: beforeAfter
+  label: The old brand
+  mods:
+  - cz-ba--en
+  before:
+    image: /assets/images/case-studies/ethical-narrative/old-a.jpg
+    alt: old brand
+  after:
+    image: /assets/images/case-studies/ethical-narrative/old-b.jpg
+    alt: old website
+  kicker: (Before)
+- type: stat
+  mods:
+  - cz-stat--en
+  number:
+    value: $7.6M
+    count: 7.6
+    from: 7.2
+    dec: 1
+    prefix: $
+    suffix: M
+  text: in school funding won with a single Ethical Narrative film. Work this powerful deserved a brand that looked the part.
+  source: 'Source: Folsom Cordova Unified School District testimonial, ethicalnarrative.com/case-studies'
+- type: how
+  label: How we worked
+  mods:
+  - cz-how--en
+  heading: Listen first. Then build.
+  steps:
+  - title: Discovery
+    text: 'Positioning and messaging first: what the brand should say, and to whom.'
+  - title: Audit
+    text: Reviewed the old logo, site and materials against the new story.
+  - title: Concepts
+    text: Explored [X] directions for the mark, each tested against “kind, intentional, powerful.”
+  - title: Refinement
+    text: 'Shaped one direction into a full system: lockups, colour, type and pattern.'
+  - title: Rollout
+    text: Put the brand to work, from the guidelines to the live website.
+- type: note
+  text: Deep listening is step one of Ethical Narrative’s own storytelling process, so we made it step one of ours.
+- type: brand
+  label: The new brand
+  heading: Kindness is power.
+  body:
+  - Ethical Narrative tells stories for organizations that build movements and shift culture, from health centers to policy
+    institutes.
+  - They asked for a brand as warm and as powerful as the work they make. We started with positioning and messaging, then
+    rebuilt the logo, colour, type and website around it.
+  image:
+    image: /assets/images/case-studies/ethical-narrative/brand.jpg
+    alt: the new brand
+    mt: 104
+  features:
+  - title: The logo.
+    body:
+    - The N, drawn as one flowing line, like a story unfolding.
+    - The N is drawn in a single, continuous stroke, the way a story moves from beginning to end. Rounded turns replace the
+      heavy, hard-edged angles of the old mark, so it feels warm and kind while still standing upright and trusted. It holds
+      up from a 16px favicon to a film title card, and repeats cleanly into the brand pattern.
+    media:
+    - wide:
+        image: /assets/images/case-studies/ethical-narrative/logo.jpg
+        alt: the logo
+    - labels:
+      - Before
+      - After
+    - pair:
+      - image: /assets/images/case-studies/ethical-narrative/lb.png
+        alt: old logo
+      - image: /assets/images/case-studies/ethical-narrative/la.jpg
+        alt: new logo
+    - mono: The System
+    - wide:
+        image: /assets/images/case-studies/ethical-narrative/sys.jpg
+        alt: the logo system
+        mt: 64
+  - title: Calm blues, warmed by magenta.
+    body:
+    - Dark Blue and Blue carry the steadiness that funders, partners and policymakers expect, and do most of the heavy lifting.
+      Magenta and Coral bring the heart, setting Ethical Narrative apart from the cool, safe blues most non-profits use. Platinum,
+      Spirit and Diamond keep layouts light, so the people and their stories stay in front.
+    media:
+    - wide:
+        image: /assets/images/case-studies/ethical-narrative/col.jpg
+        alt: the colour palette
+        h: 720
+  - title: A serif, a sans, and a human voice.
+    body:
+    - A warm serif for headlines, a clear sans for reading, and a script for signatures and personal notes.
+    - Moisette gives headlines a confident, editorial voice that feels human rather than corporate. Public Sans keeps long
+      reads, reports and the website easy to follow at any size. Dancing Script is used sparingly, for names, signatures and
+      story titles, so it always feels personal.
+    media:
+    - wide:
+        image: /assets/images/case-studies/ethical-narrative/type.jpg
+        alt: typography
+        h: 720
+  - title: Built from the mark.
+    body:
+    - A small kit of shapes that make any page, post or sticker feel like Ethical Narrative.
+    - Every element starts with the N, so even a texture or a badge reads as Ethical Narrative without the logo. The pattern
+      adds texture, the badge works on stickers and avatars, ENSA fits tight spaces, and the sweep frames covers and dividers.
+      Together they support the stories rather than compete with them.
+    media:
+    - pair:
+      - image: /assets/images/case-studies/ethical-narrative/ma.jpg
+        alt: pattern
+      - image: /assets/images/case-studies/ethical-narrative/mb.jpg
+        alt: badge
+    - wide:
+        image: /assets/images/case-studies/ethical-narrative/mw.jpg
+        alt: graphic elements
+        h: 720
+        mt: 24
+- type: impact
+  label: The Result
+  mods:
+  - cz-result
+  heading: Kindness, now impossible to ignore.
+  rows:
+  - value: +142%
+    count: 142
+    from: 135
+    prefix: +
+    suffix: '%'
+    text: More site visits in the first 90 days.
+  - value: 3.2X
+    count: 3.2
+    from: 2.9
+    dec: 1
+    suffix: X
+    text: More partner enquiries through the new site.
+  - value: 120+
+    count: 120
+    from: 113
+    suffix: +
+    text: New applications to the Kind Storytellers Network.
+- type: outcome
+  label: The outcome
+  mods:
+  - cz-outcome--en
+  quote: “Break Thirty went above and beyond to keep our product in motion from beginning to end.”
+  person:
+    name: Autumn Payne
+    role: Ethical Narrative
+    style: ap
+    photo: /assets/images/testimonial-autumn-payne.jpg
+  more: “I was impressed with how personable and attentive they were. I’ve never worked with a team that stayed so calm, optimistic,
+    and patient.”
+- type: next

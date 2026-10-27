@@ -1,0 +1,9 @@
+---
+/**
+ * A case-study picture: a box with the image as its background. The images script (public/js/case-study/images.js)
+ * reads the background and plays the WebGL pixel reveal over it; without WebGL it wipes in with CSS.
+ * `class` = the box's own class (e.g. "cz-part__img"), `hero` = the hero's slower drift.
+ */
+const { image, alt, class: cls = "", hero = false } = Astro.props;
+---
+<div class={`${cls} ph`.trim()} data-gl={hero ? "hero" : ""} role="img" aria-label={alt} style={`background-image:url(${image})`}></div>

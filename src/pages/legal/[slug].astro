@@ -1,0 +1,62 @@
+---
+/**
+ * Legal pages — /legal/privacy-policy, /legal/terms-of-service (the old site's URLs).
+ * Text: src/content/legal/<name>.md · Styles: src/styles/pages/legal.css
+ * The footer's Privacy Policy and Terms links point here (src/data/site.js).
+ */
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/pages/legal.css";
+
+import Header from "../../components/Header.astro";
+import PartnersStrip from "../../components/PartnersStrip.astro";
+import Strip from "../../components/closing/Strip.astro";
+import ClosingCta from "../../components/closing/ClosingCta.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import { nav, partnersStrip, closing, contact, footer } from "../../data/site.js";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("legal");
+  return pages.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+const seo = { title: data.seoTitle || data.title, description: data.description };
+const scriptContent = { contact: { heading: contact.heading, closing: contact.closing } };
+const scripts = ["core", "header", "hero-light", "partners", "contact", "footer", "details", "services-hero", "strip", "contact-closing"];
+---
+
+<BaseLayout seo={seo} content={scriptContent} scripts={scripts} crumbs={[{ name: data.title, path: `/legal/${entry.id}` }]}>
+  <section class="b30h wk-hero bp-hero lg-hero" aria-labelledby="lg-title">
+    <div class="b30h__pin">
+      <div class="b30h__stage">
+        <span class="b30h__vline b30h__vline--34" aria-hidden="true"></span>
+        <i class="b30h__px" style="--x:82" aria-hidden="true"></i><i class="b30h__px b30h__px--c" style="--x:960" aria-hidden="true"></i><i class="b30h__px" style="--x:1838" aria-hidden="true"></i>
+        <span class="b30h__vline b30h__vline--27" aria-hidden="true"></span>
+        <Header {...nav} page="legal" />
+        <h1 class="bp-title" id="lg-title" data-heading>{data.title}</h1>
+        <div class="bp-meta">
+          {data.company && <p class="bp-desc" data-reveal style="--rd:120ms">{data.company}</p>}
+          {data.updated && <p class="lg-updated" data-reveal style="--rd:200ms">Last updated: {data.updated}</p>}
+        </div>
+        <span class="b30h__vline b30h__vline--26" aria-hidden="true"></span>
+      </div>
+      <div class="wk-hero__dim" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main class="b30-main" id="main">
+    <PartnersStrip {...partnersStrip} />
+    <section class="bp lg" aria-label={data.title}>
+      <div class="lg__in"><article class="bp-art lg-art"><Content /></article></div>
+    </section>
+    <Strip {...closing.strip} />
+    <ClosingCta {...closing.cta} />
+    <Contact {...contact} />
+  </main>
+
+  <Footer {...footer} page="legal" />
+</BaseLayout>

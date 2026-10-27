@@ -1,0 +1,22 @@
+---
+/**
+ * Blog page · 2. All guides — the heading, the tag filters ("All" first) and the grid of guides.
+ * Content: `list` in src/data/blog.js + the posts · Script: public/js/blog.js (filters, picture hover)
+ */
+import Card from "./Card.astro";
+const { heading, all, filtersLabel, posts, tags, total = posts.length } = Astro.props;   // total: every guide, the "Must read" one too
+---
+<section class="blg" id="blogs" aria-label="Blog posts">
+  <div class="blg__in">
+    <div class="blg-all">
+      <h2 class="blg-all__h" data-heading>{heading}</h2>
+      <div class="blg-cats" role="toolbar" aria-label={filtersLabel} data-reveal>
+        <button class="blg-cat on" type="button" data-cat="" aria-pressed="true">{all} {String(total).padStart(2, "0")}</button>
+        {tags.map((t) => <button class="blg-cat" type="button" data-cat={t} aria-pressed="false">{t}</button>)}
+      </div>
+      <div class="blg-grid">
+        {posts.map((p, i) => <Card post={p} i={i} />)}
+      </div>
+    </div>
+  </div>
+</section>
